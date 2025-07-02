@@ -13,11 +13,18 @@ app.get('/', (req, res) => {
 })
 
 app.get('/compose', (req, res) => {
-    res.render('compose');
+    res.render('compose', {post: null});
+})
+
+app.get('/edit/:id', (req, res) => {
+    const postId = Number(req.params.id);
+    const edit = posts.find(post => post.id === postId);
+    res.render('compose', {post: edit});
 })
 
 app.post("/compose", (req, res) => {
     const post = {
+        id: posts.length + 1,
         title: req.body.title,
         body: req.body.body
     };
@@ -25,6 +32,18 @@ app.post("/compose", (req, res) => {
     posts.push(post);
     res.redirect('/');
 });
+app.post("/edit/:id", (req, res) => {
+    const postId = Number(req.params.id);
+
+    const post = posts.find(post => post.id === postId);
+
+    if (post) {
+        post.title = req.body.title;
+        post.body = req.body.body;
+    }
+
+    res.redirect("/");
+})
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

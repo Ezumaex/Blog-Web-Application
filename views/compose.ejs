@@ -1,12 +1,16 @@
-
-<form action="/compose" method="POST">
+<form action="<%= post ? '/edit/' + post.id : '/compose' %>" method="POST">
     <div class="mb-3">
         <label for="postTitle" class="form-label">Title</label>
-        <input type="text" class="form-control" id="postTitle" name="title" placeholder="Enter post title">
+        <input type="text" class="form-control" id="postTitle" name="title"
+               placeholder="Enter post title"
+               value="<%= post ? post.title : '' %>">
     </div>
     <div class="mb-3">
         <label for="postBody" class="form-label">Blog</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="body" placeholder="=Write your blog here...."></textarea>
+        <textarea class="form-control" id="postBody" rows="4" name="body"
+                  placeholder="Write your blog here...."><%= post ? post.body : '' %></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Publish</button>
+    <button type="submit" class="btn btn-primary">
+        <%= post ? 'Update Post' : 'Create Post' %>
+    </button>
 </form>
